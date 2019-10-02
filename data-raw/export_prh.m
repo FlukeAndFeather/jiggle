@@ -22,6 +22,7 @@ while true
 end
 brushed = h.BrushData;
 aoi = find(brushed);
+aoi_A = aoi * Afs / fs;
 % verify area of interest is accurate
 figure
 plot(-p(aoi));
@@ -31,17 +32,19 @@ plot(-p(aoi));
 ncfile = [jiggle_dir '/data-raw/mn160727-11 10Hzprh.nc'];
 ncid = netcdf.create(ncfile, 'CLOBBER');
 
-% Define dimensions (time, axis)
-timeid = netcdf.defDim(ncid, 'timestamp_local', length(aoi));
+% Define dimensions (time, timeA, axis)
+timeid = netcdf.defDim(ncid, 'time', length(aoi));
+timeAid = netcdf.defDim(ncid, 'timeA', length(aoi) * Afs / fs);
 axisid = netcdf.defDim(ncid, 'axis', 3);
 
 % Define variables (time, depth, pitch, roll, head, A, fs, Afs)
-timeid = netcdf.defVar(ncid, 'timestamp_local', 'NC_DOUBLE', timeid);
+timeid = netcdf.defVar(ncid, 'time', 'NC_DOUBLE', timeid);
 depthid = netcdf.defVar(ncid, 'depth', 'NC_FLOAT', timeid);
 pitchid = netcdf.defVar(ncid, 'pitch', 'NC_FLOAT', timeid);
 rollid = netcdf.defVar(ncid, 'roll', 'NC_FLOAT', timeid);
 headid = netcdf.defVar(ncid, 'head', 'NC_FLOAT', timeid);
-Aid = netcdf.defVar(ncid, 'A', 'NC_FLOAT', [timeid axisid]);
+timeAid = netcdf.defVar(ncid, 'timeA', 'NC_DOUBLE', timeAid);
+Aid = netcdf.defVar(ncid, 'A', 'NC_FLOAT', [timeAid axisid]);
 fsid = netcdf.defVar(ncid, 'fs', 'NC_INT', []);
 Afsid = netcdf.defVar(ncid, 'Afs', 'NC_INT', []);
 netcdf.endDef(ncid)
@@ -52,7 +55,9 @@ netcdf.putVar(ncid, depthid, p(aoi));
 netcdf.putVar(ncid, pitchid, pitch(aoi));
 netcdf.putVar(ncid, rollid, roll(aoi));
 netcdf.putVar(ncid, headid, head(aoi));
-netcdf.putVar(ncid, Aid, A(aoi, :));
+timeA = linspace(DN(aoi(1)), DN(aoi(end)), length(aoi) * Afs / fs);
+netcdf.putVar(ncid, timeAid, timeA);
+netcdf.putVar(ncid, Aid, A(aoi_A, :));
 netcdf.putVar(ncid, fsid, fs);
 netcdf.putVar(ncid, Afsid, Afs);
 
