@@ -7,24 +7,25 @@ find0cross <- function(x) {
     return(rep(FALSE, length(x)))
   }
 
-  # Recursively find zero-crossing values
-  is_cross <- function(y, s) {
-    if (length(y) == 0) {
-      return(logical(0))
-    }
-    s1 <- sign(y[1])
-    yn <- y[-1]
-    if (s1 == 0) {
-      c(FALSE, is_cross(yn, s))
-    } else {
-      c(s1 * s < 0, is_cross(yn, s1))
-    }
-  }
-
   # Start looking at the first non-zero value
   if (all(x == 0)) {
     return(rep(FALSE, length(x)))
   }
+  result <- logical(length(x))
   first_non0 <- which(x != 0)[1]
-  c(rep(FALSE, first_non0), is_cross(x[-c(1:first_non0)], sign(x[first_non0])))
+  result[1:first_non0] <- FALSE
+  if (first_non0 == length(x)) {
+    return(result)
+  }
+  s <- sign(x[first_non0])
+  for (i in (first_non0 + 1):length(x)) {
+    si <- sign(x[i])
+    if (si == 0) {
+      result[i] <- FALSE
+    } else {
+      result[i] <- s * si < 0
+      s <- si
+    }
+  }
+  result
 }
