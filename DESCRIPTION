@@ -10,3 +10,11 @@ Description: What the package does (one paragraph).
 License: What license it uses
 Encoding: UTF-8
 LazyData: true
+Suggests: 
+    testthat
+Imports: 
+    RcppRoll,
+    dplyr,
+    magrittr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
