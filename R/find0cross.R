@@ -7,6 +7,9 @@ find0cross <- function(x) {
     return(rep(FALSE, length(x)))
   }
 
+  # Treat NAs like zeros
+  x[is.na(x)] <- 0
+
   # Start looking at the first non-zero value
   if (all(x == 0)) {
     return(rep(FALSE, length(x)))

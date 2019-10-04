@@ -26,3 +26,9 @@ test_that("zero-tangent events aren't crossings", {
 test_that("signs carry through zeros", {
   expect_equal(find0cross(c(1, 0, -1)), c(FALSE, FALSE, TRUE))
 })
+
+test_that("NAs handled like 0s", {
+  expect_equal(find0cross(rep(NA_real_, 3)), rep(FALSE,3))
+  expect_equal(find0cross(c(1, NA, 1)), c(FALSE, FALSE, FALSE))
+  expect_equal(find0cross(c(1, NA, -1)), c(FALSE, FALSE, TRUE))
+})
