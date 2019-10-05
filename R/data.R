@@ -1,6 +1,7 @@
 #' Example PRH data
 #'
-#' Example data from deployment mn160727-11.
+#' Example data from a CATS biologger deployed on a humpback whale (*Megaptera
+#' novaeangliae*) in Monterey Bay, CA, US on 2016-07-27.
 #'
 #' @docType data
 #' @usage data(prh)
