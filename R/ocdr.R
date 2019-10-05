@@ -1,12 +1,19 @@
-ocdr <- function(depth, pitch) {
-  if (length(depth) != length(pitch))
-    stop("depth and pitch must be the same length")
-
-  if (mean(pitch) < pi / 4)
-    stop("Mean pitch is less than 45 degrees")
-
-
-
+#' Orientation-corrected depth rate
+#'
+#' Uses steep descent phases with constant pitch to generate known speed
+#' values.
+get_ocdr <- function(const_pitch, fs) {
+  get_ocdr1 <- function(depth, pitch) {
+    mean_pitch <- mean(-pitch)
+    delta_depth <- max(depth) - min(depth)
+    dist <- delta_depth / sin(mean_pitch)
+    dur <- length(depth) / fs
+    dist / dur
+  }
+  const_pitch %>%
+    tidyr::drop_na(flat) %>%
+    dplyr::group_by(desc, flat) %>%
+    dplyr::summarize(ocdr = get_ocdr1(depth, pitch))
 }
 
 #' Find steep descent phases at the beginning of dives
@@ -59,7 +66,10 @@ find_desc <- function(depth,
 #' const_pitch <- find_desc(prh$depth, prh$pitch, prh$fs) %>%
 #'   tidyr::drop_na(desc) %>%
 #'   dplyr::group_by(desc) %>%
-#'   dplyr::group_modify(~ find_const_pitch(.x, .y, width = prh$fs, fs = prh$fs))
+#'   dplyr::group_modify(~ find_const_pitch(.x, .y,
+#'                                         width = prh$fs,
+#'                                         fs = prh$fs)) %>%
+#'   dplyr::ungroup()
 find_const_pitch <- function(data,
                              desc_id,
                              width,

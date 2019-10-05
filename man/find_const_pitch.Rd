@@ -13,8 +13,11 @@ from a constant pitch. Finds up to \code{max_flat} periods, ranked by lowest MAE
 excluding any with MAE greater than the \code{mae_thr} threshold.
 }
 \examples{
-desc_samples <- find_desc(prh$depth, prh$pitch, prh$fs) \%>\%
+const_pitch <- find_desc(prh$depth, prh$pitch, prh$fs) \%>\%
   tidyr::drop_na(desc) \%>\%
   dplyr::group_by(desc) \%>\%
-  dplyr::group_modify(~ find_const_pitch(.x, .y, width = prh$fs, fs = prh$fs))
+  dplyr::group_modify(~ find_const_pitch(.x, .y,
+                                        width = prh$fs,
+                                        fs = prh$fs)) \%>\%
+  dplyr::ungroup()
 }
