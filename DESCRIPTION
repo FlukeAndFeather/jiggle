@@ -15,6 +15,9 @@ Suggests:
 Imports: 
     RcppRoll,
     dplyr,
-    magrittr
+    magrittr,
+    purrr,
+    ggplot2,
+    tidyr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
