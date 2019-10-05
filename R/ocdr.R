@@ -2,6 +2,16 @@
 #'
 #' Uses steep descent phases with constant pitch to generate known speed
 #' values.
+#'
+#' @examples
+#' const_pitch <- find_desc(prh$depth, prh$pitch, prh$fs) %>%
+#'   tidyr::drop_na(desc) %>%
+#'   dplyr::group_by(desc) %>%
+#'   dplyr::group_modify(~ find_const_pitch(.x, .y,
+#'                                         width = prh$fs,
+#'                                         fs = prh$fs)) %>%
+#'   dplyr::ungroup()
+#' get_ocdr(const_pitch, prh$fs)
 get_ocdr <- function(const_pitch, fs) {
   get_ocdr1 <- function(depth, pitch) {
     mean_pitch <- mean(-pitch)
@@ -13,7 +23,9 @@ get_ocdr <- function(const_pitch, fs) {
   const_pitch %>%
     tidyr::drop_na(flat) %>%
     dplyr::group_by(desc, flat) %>%
-    dplyr::summarize(ocdr = get_ocdr1(depth, pitch))
+    dplyr::summarize(ocdr = get_ocdr1(depth, pitch),
+                     fstart = min(i),
+                     fend = max(i))
 }
 
 #' Find steep descent phases at the beginning of dives
@@ -21,7 +33,7 @@ find_desc <- function(depth,
                       pitch,
                       fs,
                       depth_thr = 5,
-                      pitch_thr = -60 * pi / 180) {
+                      pitch_thr = -45 * pi / 180) {
   # Split depth profile into dives
   dive_start <- depth >= depth_thr & dplyr::lag(depth, default = 0) < depth_thr
   dive_num <- cumsum(dive_start)
@@ -74,7 +86,7 @@ find_const_pitch <- function(data,
                              desc_id,
                              width,
                              fs,
-                             max_flat = 10,
+                             max_flat = 20,
                              mae_thr = 0.5 * pi / 180) {
   pitch <- data$pitch
 
