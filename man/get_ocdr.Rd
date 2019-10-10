@@ -12,6 +12,10 @@ get_ocdr(prh, binwidth = 1)
 
 \item{binwidth}{Size of bin to calculate OCDR (in seconds)}
 }
+\value{
+PRH data frame with \code{ocdr} column and an attribute
+\code{binwidth}.
+}
 \description{
 Uses steep descent phases to estimate known speed values.
 }

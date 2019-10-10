@@ -5,7 +5,7 @@
 #'
 #' @param prh PRH data frame with `desc_id` column
 #'
-#' @return A gg object (see \code{\link[cowplot]{cowplot}})
+#' @return A gg object (see \code{cowplot})
 #'
 #' @examples
 #' plot_desc(find_desc(prh_expl))

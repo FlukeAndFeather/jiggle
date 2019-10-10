@@ -2,9 +2,12 @@
 #'
 #' Uses steep descent phases to estimate known speed values.
 #'
-#' @param prh PRH data frame with `desc_id` column (see
+#' @param prh PRH data frame with \code{desc_id} column (see
 #'   \code{\link{find_desc}})
 #' @param binwidth Size of bin to calculate OCDR (in seconds)
+#'
+#' @return PRH data frame with \code{ocdr} column and an attribute
+#'   \code{binwidth}.
 #'
 #' @examples
 #' prh_expl %>%
@@ -41,7 +44,7 @@ get_ocdr <- function(prh, binwidth = 1) {
     ocdr_desc <- distance / binwidth
     ocdr_desc
   }
-  suppressWarnings(
+  result <- suppressWarnings(
     prh %>%
       dplyr::group_by(.data$desc_id) %>%
       dplyr::mutate(ocdr = get_ocdr_desc(.data$depth,
@@ -49,4 +52,7 @@ get_ocdr <- function(prh, binwidth = 1) {
                                          .data$desc_id[1])) %>%
       dplyr::ungroup()
   )
+  attr(result, "fs") <- attr(prh, "fs")
+  attr(result, "binwidth") <- binwidth
+  result
 }

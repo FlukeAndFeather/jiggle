@@ -10,7 +10,7 @@ plot_desc(prh)
 \item{prh}{PRH data frame with \code{desc_id} column}
 }
 \value{
-A gg object (see \code{\link[cowplot]{cowplot}})
+A gg object (see \code{cowplot})
 }
 \description{
 Highlights descent phases used to calculate OCDR. Requires package
