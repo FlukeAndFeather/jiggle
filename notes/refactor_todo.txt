@@ -1,0 +1,36 @@
+jiggle to-do:
+
+- remove import_prh and replace with prhdata dependency (Suggests)
+- define API
+  - jgl_find_desc
+  - jgl_ocdr
+  - jgl_acc_rms
+  - jgl_fit
+  - jgl_optim
+  - print.jgl
+  - predict.jgl
+  - summary.jgl
+  - plot_
+    - desc (depth + pitch)
+    - ocdr
+    - acc (3-axis filtered + RMS)
+- utilities
+  - filter_acc
+  - rms
+  - as_degrees
+- S3 class?
+  - prh data
+  - descents
+  - const_pitch
+    - rms_thr
+    - binwidth
+  - summary:
+    - coef
+    - r2
+    - rms error
+  - optimization
+    - yes/no
+    - cutoff
+    - data size
+    - k-fold cv results
+  

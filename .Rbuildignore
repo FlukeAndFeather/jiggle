@@ -1,3 +1,5 @@
+^LICENSE\.md$
 ^data-raw$
 ^jiggle\.Rproj$
 ^\.Rproj\.user$
+^notes$

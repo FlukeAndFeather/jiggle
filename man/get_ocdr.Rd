@@ -4,9 +4,20 @@
 \alias{get_ocdr}
 \title{Orientation-corrected depth rate}
 \usage{
-get_ocdr(const_pitch, fs)
+get_ocdr(prh, binwidth = 1)
+}
+\arguments{
+\item{prh}{PRH data frame with \code{desc_id} column (see
+\code{\link{find_desc}})}
+
+\item{binwidth}{Size of bin to calculate OCDR (in seconds)}
 }
 \description{
-Uses steep descent phases with constant pitch to generate known speed
-values.
+Uses steep descent phases to estimate known speed values.
+}
+\examples{
+prh_expl \%>\%
+  find_desc() \%>\%
+  get_ocdr()
+
 }

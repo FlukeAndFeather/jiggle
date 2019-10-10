@@ -7,17 +7,25 @@ Authors@R:
            role = c("aut", "cre"),
            email = "first.last@example.com")
 Description: What the package does (one paragraph).
-License: What license it uses
+Depends: R (>= 2.10)
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Suggests: 
-    testthat
+    testthat,
+    prhdata,
+    cowplot
 Imports: 
     RcppRoll,
     dplyr,
     magrittr,
     purrr,
     ggplot2,
-    tidyr
+    tidyr,
+    signal,
+    rlang,
+    zoo
+Remotes:
+    FlukeAndFeather/prhdata
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1

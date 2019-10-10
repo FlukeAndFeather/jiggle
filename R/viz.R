@@ -1,19 +1,125 @@
-#' Visualize descent phases within dive profile
-viz_desc <- function(desc) {
-  ggplot2::ggplot(desc, ggplot2::aes())
+#' Plot descent phases within dive profile
+#'
+#' Highlights descent phases used to calculate OCDR. Requires package
+#' `cowplot`.
+#'
+#' @param prh PRH data frame with `desc_id` column
+#'
+#' @return A gg object (see \code{\link[cowplot]{cowplot}})
+#'
+#' @examples
+#' plot_desc(find_desc(prh_expl))
+#'
+#' @export
+plot_desc <- function(prh) {
+  if (!"desc_id" %in% colnames(prh)) {
+    stop("Column `desc_id` not found. Did you run `find_desc`?")
+  }
+  if (!requireNamespace("cowplot", quietly = TRUE)) {
+    stop("Package `cowplot` is required for plot_desc")
+  }
+  depth_plot <- ggplot2::ggplot(prh, ggplot2::aes(time, depth)) +
+    ggplot2::geom_line(size = 0.2) +
+    ggplot2::geom_line(ggplot2::aes(group = desc_id),
+                       data = tidyr::drop_na(prh, desc_id),
+                       color = "blue",
+                       size = 1) +
+    ggplot2::scale_y_reverse()
+  pitch_breaks <- seq(-pi / 2, pi / 2, length.out = 7)
+  pitch_plot <- ggplot2::ggplot(prh, ggplot2::aes(time, pitch)) +
+    ggplot2::geom_line(size = 0.2) +
+    ggplot2::geom_line(ggplot2::aes(group = desc_id),
+                       data = tidyr::drop_na(prh, desc_id),
+                       color = "blue",
+                       size = 1) +
+    ggplot2::scale_y_continuous(breaks = pitch_breaks,
+                                labels = as_degrees) +
+    ggplot2::expand_limits(y = pitch_breaks) +
+    ggplot2::theme_minimal()
+  cowplot::plot_grid(depth_plot, pitch_plot,
+                     align = "h",
+                     ncol = 1,
+                     rel_heights = c(2, 3))
 }
 
-#' Visualize constant pitch periods in descents
-viz_const_pitch <- function(const_pitch) {
-  ggplot2::ggplot(const_pitch, ggplot2::aes(i, pitch)) +
-    ggplot2::geom_line() +
-    ggplot2::geom_line(ggplot2::aes(group = flat),
-                       tidyr::drop_na(const_pitch, flat),
-                       color = "red") +
-    ggplot2::scale_y_continuous("Pitch (deg)",
-                                labels = as_degrees) +
-    ggplot2::expand_limits(y = -pi / 2) +
-    ggplot2::facet_wrap(~ desc,
-                        scales = "free_x") +
+#' Plot OCDR
+#'
+#' Create a plot of orientation-corrected depth rate during descents.
+#'
+#' @param prh PRH data frame with OCDR calculated
+#'
+#' @return A ggplot object
+#'
+#' @examples
+#' prh_expl %>%
+#'   find_desc() %>%
+#'   get_ocdr() %>%
+#'   plot_ocdr()
+#'
+#' @export
+plot_ocdr <- function(prh) {
+  if (!"ocdr" %in% colnames(prh)) {
+    stop("Column `ocdr` not found. Did you run `get_ocdr`?")
+  }
+  if (!requireNamespace("cowplot", quietly = TRUE)) {
+    stop("Package `cowplot` is required for plot_ocdr")
+  }
+  ocdr_plot <- ggplot2::ggplot(prh, ggplot2::aes(time, depth)) +
+    ggplot2::geom_line(size = 0.2) +
+    ggplot2::geom_point(ggplot2::aes(color = ocdr),
+                        data = tidyr::drop_na(prh, ocdr)) +
+    ggplot2::scale_y_reverse() +
+    ggplot2::scale_color_gradient("OCDR",
+                                  low = "#F5AF19",
+                                  high = "#F12711") +
+    ggplot2::expand_limits(color = 0) +
     ggplot2::theme_minimal()
+  ocdr_plot
 }
+
+#' Depth plot utility function
+#'
+#' @param prh PRH data frame
+#' @param hide_x If TRUE (default), hide x-axis title and text.
+#'
+#' @noRd
+plot_depth <- function(prh, hide_x = TRUE) {
+  depth_plot <- ggplot2::ggplot(prh, ggplot2::aes(time, depth)) +
+    ggplot2::geom_line(size = 0.2) +
+    ggplot2::geom_line(ggplot2::aes(group = desc_id),
+                       data = tidyr::drop_na(prh, desc_id),
+                       color = "blue",
+                       size = 1) +
+    ggplot2::scale_y_reverse()
+  if (hide_x) {
+    depth_plot +
+      ggplot2::theme_minimal() +
+      ggplot2::theme(axis.text.x = ggplot2::element_blank(),
+                     axis.title.x = ggplot2::element_blank())
+  } else {
+    depth_plot
+  }
+}
+
+#' #' Visualize constant pitch periods in descents
+#' viz_const_pitch <- function(const_pitch) {
+#'   ggplot2::ggplot(const_pitch, ggplot2::aes(i, pitch)) +
+#'     ggplot2::geom_line() +
+#'     ggplot2::geom_line(ggplot2::aes(group = flat),
+#'                        tidyr::drop_na(const_pitch, flat),
+#'                        color = "red") +
+#'     ggplot2::scale_y_continuous("Pitch (deg)",
+#'                                 labels = as_degrees) +
+#'     ggplot2::expand_limits(y = -pi / 2) +
+#'     ggplot2::facet_wrap(~ desc,
+#'                         scales = "free_x") +
+#'     ggplot2::theme_minimal()
+#' }
+#'
+#' #' Visualize dive profile
+#' viz_dives <- function(prh) {
+#'   ggplot2::ggplot(prh, ggplot2::aes(time, depth)) +
+#'     ggplot2::geom_line(size = 0.2) +
+#'     ggplot2::scale_y_reverse() +
+#'     ggplot2::theme_minimal()
+#' }
