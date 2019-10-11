@@ -1,16 +1,47 @@
 Package: jiggle
-Title: What the Package Does (One Line, Title Case)
+Title: Estimating Speed from Accelerometer Jiggle
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com")
-Description: What the package does (one paragraph).
+Authors@R: c(
+    person(given = "David",
+           family = "Cade",
+           role = c("aut"),
+           email = "davecade@stanford.edu",
+           comment = c(ORCID = "0000-0003-3641-1242")),
+    person(given = "Kelly",
+           family = "Barr",
+           role = c("aut")),
+    person(given = "John",
+           family = "Calambokidis",
+           role = c("aut"),
+           comment = c(ORCID = "0000-0002-5028-7172")),
+    person(given = "Ari",
+           family = "Friedlaender",
+           role = c("aut")),
+    person(given = "Jeremy",
+           family = "Goldbogen",
+           role = c("aut"),
+           comment = c(ORCID = "0000-0002-4170-7294")),
+    person(given = "Max",
+           family = "Czapanskiy",
+           role = c("trl", "cre"),
+           email = "maxczap@stanford.edu",
+           comment = c(ORCID = "0000-0002-6302-905X"))
+    )
+Description: The jiggle package estimates forward speed of an animal from the 
+    amplitude of accelerometer "jiggle". It uses an in situ calibration to 
+    regress periods of known speed on the magnitude of the jiggle, which can be 
+    used to predict speed throughout the deployment. See Cade et al. 2018 for 
+    more details.
 Depends: R (>= 2.10)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Remotes:
+    FlukeAndFeather/prhdata
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
+URL: https://jeb.biologists.org/content/221/2/jeb170449
+BugReports: https://github.com/FlukeAndFeather/jiggle/issues
 Suggests: 
     testthat,
     prhdata,
@@ -25,7 +56,3 @@ Imports:
     signal,
     rlang,
     zoo
-Remotes:
-    FlukeAndFeather/prhdata
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1

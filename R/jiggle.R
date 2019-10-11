@@ -1,14 +1,11 @@
-# jgl_fit <- function(prh, acc, low, high, pitch_thr, depth_thr) {
-#   ocdr <- prh %>%
-#     find_desc(pitch_thr) %>%
-#     --rank_pitch() %>%
-#     calc_ocdr()
-#
-#   jgl <- acc %>%
-#     filter_acc(low, high) %>%
-#     calc_rms(ocdr)
-#
-#   jgl_model <- ocdr %>%
-#     left_join(jgl) %>%
-#     fit_model()
-# }
+#' jiggle: Estimating speed from accelerometer jiggle
+#'
+#' The jiggle package estimates forward speed of an animal from the amplitude
+#'   of accelerometer "jiggle". It uses an in situ calibration to regress
+#'   periods of known speed on the magnitude of the jiggle, which can be used
+#'   to predict speed throughout the deployment. See Cade et al. 2018 for more
+#'   details.
+#'
+#' @docType package
+#' @name jiggle
+NULL
