@@ -31,6 +31,7 @@ find_desc <- function(prh, depth_thr = 5, pitch_thr = -45 * pi / 180) {
     begin = seq_along(depth)[desc_start],
     end = desc_end
   ) %>%
+    tidyr::drop_na(end) %>%
     dplyr::mutate(desc_id = factor(seq(length(.data$begin)))) %>%
     dplyr::group_by(.data$desc_id) %>%
     dplyr::group_modify(

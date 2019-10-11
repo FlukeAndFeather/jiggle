@@ -5,3 +5,4 @@
 data-raw/Example\ Data/*
 data-raw/*.nc
 data-raw/*.zip
+*.m~

@@ -1,7 +1,10 @@
 utils::globalVariables(c(
   "depth",
   "desc_id",
+  "end",
   "ocdr",
   "pitch",
-  "time"
+  "smooth_speed",
+  "time",
+  "true_speed"
 ))

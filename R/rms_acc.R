@@ -30,18 +30,24 @@ get_rms_acc <- function(prh, A) {
 
   fs <- attr(prh, "fs")
   Afs <- attr(A, "Afs")
-  binsize <- attr(prh, "bindwidth") * fs
+  if ((Afs / fs) %% 1 != 0) {
+    stop("Ratio of `Afs` to `fs` must be an integer, not %.2f.", Afs / fs)
+  }
+  if (nrow(A) / (Afs / fs) != nrow(prh)) {
+    stop(sprintf("`A` must have exactly %i times as many rows as `prh`.",
+                 Afs / fs))
+  }
+
+  binsize <- attr(prh, "binwidth") * fs
   idx_to_A <- function(idx) {
     ((idx[1] - 1) * Afs / fs + 1):(idx[length(idx)] * Afs / fs)
   }
   rms_mtx <- matrix(NA, nrow = nrow(prh), ncol = 3)
   for (i in 1:nrow(rms_mtx)) {
-    if (!is.na(prh$ocdr[i])) {
-      bin_start <- max(1, floor(i - binsize / 2))
-      bin_end <- min(nrow(rms_mtx), floor(i + binsize / 2))
-      acc <- A$A[idx_to_A(bin_start:bin_end), ]
-      rms_mtx[i, ] <- apply(acc, 2, rms)
-    }
+    bin_start <- max(1, floor(i - binsize / 2))
+    bin_end <- min(nrow(rms_mtx), floor(i + binsize / 2))
+    acc <- A$A[idx_to_A(bin_start:bin_end), ]
+    rms_mtx[i, ] <- apply(acc, 2, function(x) 20 * log10(rms(x)))
   }
 
   result <- prh
