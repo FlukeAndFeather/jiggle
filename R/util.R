@@ -52,6 +52,8 @@ lag0 <- function(x, n = 1) {
 #' @param thr Minimum value of x to count as a peak
 #'
 #' @return Data frame with columns i (index of peaks) and x (value at peak)
+#'
+#' @noRd
 findpeaks <- function(x, width, thr) {
   local_max <- RcppRoll::roll_max(x, n = width, fill = NA)
   i_peak <- which(x == local_max & x >= thr)

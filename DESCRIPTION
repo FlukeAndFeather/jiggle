@@ -23,7 +23,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-4170-7294")),
     person(given = "Max",
            family = "Czapanskiy",
-           role = c("trl", "cre"),
+           role = c("aut", "trl", "cre"),
            email = "maxczap@stanford.edu",
            comment = c(ORCID = "0000-0002-6302-905X"))
     )

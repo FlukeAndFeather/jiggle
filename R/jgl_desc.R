@@ -8,6 +8,9 @@
 #' @param depth_thr Minimum depth of a dive
 #' @param pitch_thr Minimum pitch to count as steep descent (in radians)
 #'
+#' @examples
+#' jgl_desc(prh_expl)
+#'
 #' @export
 jgl_desc <- function(prh, depth_thr = 5, pitch_thr = -45 * pi / 180) {
   depth <- prh$depth

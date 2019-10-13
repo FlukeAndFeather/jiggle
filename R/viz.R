@@ -140,26 +140,3 @@ plot_depth <- function(prh, hide_x = TRUE) {
     depth_plot
   }
 }
-
-#' #' Visualize constant pitch periods in descents
-#' viz_const_pitch <- function(const_pitch) {
-#'   ggplot2::ggplot(const_pitch, ggplot2::aes(i, pitch)) +
-#'     ggplot2::geom_line() +
-#'     ggplot2::geom_line(ggplot2::aes(group = flat),
-#'                        tidyr::drop_na(const_pitch, flat),
-#'                        color = "red") +
-#'     ggplot2::scale_y_continuous("Pitch (deg)",
-#'                                 labels = as_degrees) +
-#'     ggplot2::expand_limits(y = -pi / 2) +
-#'     ggplot2::facet_wrap(~ desc,
-#'                         scales = "free_x") +
-#'     ggplot2::theme_minimal()
-#' }
-#'
-#' #' Visualize dive profile
-#' viz_dives <- function(prh) {
-#'   ggplot2::ggplot(prh, ggplot2::aes(time, depth)) +
-#'     ggplot2::geom_line(size = 0.2) +
-#'     ggplot2::scale_y_reverse() +
-#'     ggplot2::theme_minimal()
-#' }
