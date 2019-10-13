@@ -14,10 +14,10 @@
 #' @examples
 #' prh_ocdr <- jgl_ocdr(jgl_desc(prh_expl))
 #' acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
-#' get_rms_acc(prh_ocdr, acc_filt)
+#' jgl_accrms(prh_ocdr, acc_filt)
 #'
 #' @export
-get_rms_acc <- function(prh, A) {
+jgl_accrms <- function(prh, A) {
   if (is.null(attr(A, "filtered"))) {
     stop("A is not filtered. Did you run `jgl_filtacc`?")
   }

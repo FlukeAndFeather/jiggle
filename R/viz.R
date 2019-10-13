@@ -85,7 +85,7 @@ plot_ocdr <- function(prh) {
 #' prh_expl %>%
 #'   jgl_desc() %>%
 #'   jgl_ocdr() %>%
-#'   get_rms_acc(acc_filt) %>%
+#'   jgl_accrms(acc_filt) %>%
 #'   jgl_fit() %>%
 #'   plot_speed()
 #'

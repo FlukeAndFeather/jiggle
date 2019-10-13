@@ -15,13 +15,13 @@
 #' @examples
 #' prh_ocdr <- jgl_ocdr(jgl_desc(prh_expl))
 #' acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
-#' prh_rms <- get_rms_acc(prh_ocdr, acc_filt)
+#' prh_rms <- jgl_accrms(prh_ocdr, acc_filt)
 #' prh_spd <- jgl_fit(prh_rms)
 #'
 #' @export
 jgl_fit <- function(prh, n_iter = 100) {
   if (!"rms_acc" %in% colnames(prh)) {
-    stop("Acceleration RMS not found. Did you run `get_rms_acc`?")
+    stop("Acceleration RMS not found. Did you run `jgl_accrms`?")
   }
 
   prh_rms <- tidyr::drop_na(prh, ocdr)
