@@ -21,7 +21,7 @@ Plot speed as estimated from tag jiggle. Requires package \code{cowplot}.
 acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
 prh_expl \%>\%
   jgl_desc() \%>\%
-  get_ocdr() \%>\%
+  jgl_ocdr() \%>\%
   get_rms_acc(acc_filt) \%>\%
   jgl_fit() \%>\%
   plot_speed()

@@ -13,7 +13,7 @@
 #'   that takes an acceleration RMS matrix and returns the predicted speed.
 #'
 #' @examples
-#' prh_ocdr <- get_ocdr(jgl_desc(prh_expl))
+#' prh_ocdr <- jgl_ocdr(jgl_desc(prh_expl))
 #' acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
 #' prh_rms <- get_rms_acc(prh_ocdr, acc_filt)
 #' prh_spd <- jgl_fit(prh_rms)

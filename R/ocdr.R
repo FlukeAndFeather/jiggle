@@ -12,10 +12,10 @@
 #' @examples
 #' prh_expl %>%
 #'   jgl_desc() %>%
-#'   get_ocdr()
+#'   jgl_ocdr()
 #'
 #' @export
-get_ocdr <- function(prh, binwidth = 1) {
+jgl_ocdr <- function(prh, binwidth = 1) {
   if (!"desc_id" %in% colnames(prh)) {
     stop("Column `desc_id` not found. Did you run `jgl_desc`?")
   }
@@ -23,7 +23,7 @@ get_ocdr <- function(prh, binwidth = 1) {
   binsize <- binwidth * fs
 
   # Get OCDR of one descent
-  get_ocdr_desc <- function(depth, pitch, desc_id) {
+  jgl_ocdr_desc <- function(depth, pitch, desc_id) {
     if (is.na(desc_id)){
       return(rep(NA, length(depth)))
     }
@@ -47,7 +47,7 @@ get_ocdr <- function(prh, binwidth = 1) {
   result <- suppressWarnings(
     prh %>%
       dplyr::group_by(.data$desc_id) %>%
-      dplyr::mutate(ocdr = get_ocdr_desc(.data$depth,
+      dplyr::mutate(ocdr = jgl_ocdr_desc(.data$depth,
                                          .data$pitch,
                                          .data$desc_id[1])) %>%
       dplyr::ungroup()

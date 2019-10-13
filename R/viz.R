@@ -47,13 +47,13 @@ plot_desc <- function(prh) {
 #' @examples
 #' prh_expl %>%
 #'   jgl_desc() %>%
-#'   get_ocdr() %>%
+#'   jgl_ocdr() %>%
 #'   plot_ocdr()
 #'
 #' @export
 plot_ocdr <- function(prh) {
   if (!"ocdr" %in% colnames(prh)) {
-    stop("Column `ocdr` not found. Did you run `get_ocdr`?")
+    stop("Column `ocdr` not found. Did you run `jgl_ocdr`?")
   }
   if (!requireNamespace("cowplot", quietly = TRUE)) {
     stop("Package `cowplot` is required for plot_ocdr")
@@ -84,7 +84,7 @@ plot_ocdr <- function(prh) {
 #' acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
 #' prh_expl %>%
 #'   jgl_desc() %>%
-#'   get_ocdr() %>%
+#'   jgl_ocdr() %>%
 #'   get_rms_acc(acc_filt) %>%
 #'   jgl_fit() %>%
 #'   plot_speed()

@@ -12,7 +12,7 @@
 #' @return PRH data frame with \code{rms_acc} matrix column.
 #'
 #' @examples
-#' prh_ocdr <- get_ocdr(jgl_desc(prh_expl))
+#' prh_ocdr <- jgl_ocdr(jgl_desc(prh_expl))
 #' acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
 #' get_rms_acc(prh_ocdr, acc_filt)
 #'
@@ -22,10 +22,10 @@ get_rms_acc <- function(prh, A) {
     stop("A is not filtered. Did you run `jgl_filtacc`?")
   }
   if (!"ocdr" %in% colnames(prh)) {
-    stop("No `ocdr` column found. Did you run `get_ocdr`?")
+    stop("No `ocdr` column found. Did you run `jgl_ocdr`?")
   }
   if (is.null(attr(prh, "binwidth"))) {
-    stop ("No binwidth found. Did you run `get_ocdr`?")
+    stop ("No binwidth found. Did you run `jgl_ocdr`?")
   }
 
   fs <- attr(prh, "fs")
