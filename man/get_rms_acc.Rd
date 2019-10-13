@@ -23,7 +23,7 @@ OCDR bins.
 }
 \examples{
 prh_ocdr <- get_ocdr(find_desc(prh_expl))
-acc_filt <- filter_acc(Araw_expl, 10, 90)
+acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
 get_rms_acc(prh_ocdr, acc_filt)
 
 }

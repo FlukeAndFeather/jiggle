@@ -11,10 +11,10 @@
 #'   matrix (\code{A$A}) and attribute (\code{filtered}) to indicate filtering.
 #'
 #' @examples
-#' filter_acc(Araw_expl, 10, 90)
+#' jgl_filtacc(Araw_expl, 10, 90)
 #'
 #' @export
-filter_acc <- function(A, low, high) {
+jgl_filtacc <- function(A, low, high) {
   # A$A must be a 3d numeric matrix
   if (!is.matrix(A$A)) {
     stop("`A$A` must be a matrix")

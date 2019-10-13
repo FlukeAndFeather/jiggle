@@ -81,7 +81,7 @@ plot_ocdr <- function(prh) {
 #' @return A gg object (see \code{cowplot})
 #'
 #' @examples
-#' acc_filt <- filter_acc(Araw_expl, 10, 90)
+#' acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
 #' prh_expl %>%
 #'   find_desc() %>%
 #'   get_ocdr() %>%

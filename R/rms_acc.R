@@ -13,13 +13,13 @@
 #'
 #' @examples
 #' prh_ocdr <- get_ocdr(find_desc(prh_expl))
-#' acc_filt <- filter_acc(Araw_expl, 10, 90)
+#' acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
 #' get_rms_acc(prh_ocdr, acc_filt)
 #'
 #' @export
 get_rms_acc <- function(prh, A) {
   if (is.null(attr(A, "filtered"))) {
-    stop("A is not filtered. Did you run `filter_acc`?")
+    stop("A is not filtered. Did you run `jgl_filtacc`?")
   }
   if (!"ocdr" %in% colnames(prh)) {
     stop("No `ocdr` column found. Did you run `get_ocdr`?")

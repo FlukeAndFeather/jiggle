@@ -14,7 +14,7 @@
 #'
 #' @examples
 #' prh_ocdr <- get_ocdr(find_desc(prh_expl))
-#' acc_filt <- filter_acc(Araw_expl, 10, 90)
+#' acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
 #' prh_rms <- get_rms_acc(prh_ocdr, acc_filt)
 #' prh_spd <- fit_model(prh_rms)
 #'
