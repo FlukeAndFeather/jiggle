@@ -20,7 +20,7 @@ Plot speed as estimated from tag jiggle. Requires package \code{cowplot}.
 \examples{
 acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
 prh_expl \%>\%
-  find_desc() \%>\%
+  jgl_desc() \%>\%
   get_ocdr() \%>\%
   get_rms_acc(acc_filt) \%>\%
   fit_model() \%>\%

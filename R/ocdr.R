@@ -3,7 +3,7 @@
 #' Uses steep descent phases to estimate known speed values.
 #'
 #' @param prh PRH data frame with \code{desc_id} column (see
-#'   \code{\link{find_desc}})
+#'   \code{\link{jgl_desc}})
 #' @param binwidth Size of bin to calculate OCDR (in seconds)
 #'
 #' @return PRH data frame with \code{ocdr} column and an attribute
@@ -11,13 +11,13 @@
 #'
 #' @examples
 #' prh_expl %>%
-#'   find_desc() %>%
+#'   jgl_desc() %>%
 #'   get_ocdr()
 #'
 #' @export
 get_ocdr <- function(prh, binwidth = 1) {
   if (!"desc_id" %in% colnames(prh)) {
-    stop("Column `desc_id` not found. Did you run `find_desc`?")
+    stop("Column `desc_id` not found. Did you run `jgl_desc`?")
   }
   fs <- attr(prh, "fs")
   binsize <- binwidth * fs

@@ -17,7 +17,7 @@ Create a plot of orientation-corrected depth rate during descents.
 }
 \examples{
 prh_expl \%>\%
-  find_desc() \%>\%
+  jgl_desc() \%>\%
   get_ocdr() \%>\%
   plot_ocdr()
 

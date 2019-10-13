@@ -8,7 +8,7 @@ get_ocdr(prh, binwidth = 1)
 }
 \arguments{
 \item{prh}{PRH data frame with \code{desc_id} column (see
-\code{\link{find_desc}})}
+\code{\link{jgl_desc}})}
 
 \item{binwidth}{Size of bin to calculate OCDR (in seconds)}
 }
@@ -21,7 +21,7 @@ Uses steep descent phases to estimate known speed values.
 }
 \examples{
 prh_expl \%>\%
-  find_desc() \%>\%
+  jgl_desc() \%>\%
   get_ocdr()
 
 }

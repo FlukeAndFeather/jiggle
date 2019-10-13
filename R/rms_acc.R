@@ -12,7 +12,7 @@
 #' @return PRH data frame with \code{rms_acc} matrix column.
 #'
 #' @examples
-#' prh_ocdr <- get_ocdr(find_desc(prh_expl))
+#' prh_ocdr <- get_ocdr(jgl_desc(prh_expl))
 #' acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
 #' get_rms_acc(prh_ocdr, acc_filt)
 #'

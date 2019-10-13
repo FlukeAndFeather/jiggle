@@ -17,6 +17,6 @@ Highlights descent phases used to calculate OCDR. Requires package
 \code{cowplot}.
 }
 \examples{
-plot_desc(find_desc(prh_expl))
+plot_desc(jgl_desc(prh_expl))
 
 }

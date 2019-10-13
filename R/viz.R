@@ -8,12 +8,12 @@
 #' @return A gg object (see \code{cowplot})
 #'
 #' @examples
-#' plot_desc(find_desc(prh_expl))
+#' plot_desc(jgl_desc(prh_expl))
 #'
 #' @export
 plot_desc <- function(prh) {
   if (!"desc_id" %in% colnames(prh)) {
-    stop("Column `desc_id` not found. Did you run `find_desc`?")
+    stop("Column `desc_id` not found. Did you run `jgl_desc`?")
   }
   if (!requireNamespace("cowplot", quietly = TRUE)) {
     stop("Package `cowplot` is required for plot_desc")
@@ -46,7 +46,7 @@ plot_desc <- function(prh) {
 #'
 #' @examples
 #' prh_expl %>%
-#'   find_desc() %>%
+#'   jgl_desc() %>%
 #'   get_ocdr() %>%
 #'   plot_ocdr()
 #'
@@ -83,7 +83,7 @@ plot_ocdr <- function(prh) {
 #' @examples
 #' acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
 #' prh_expl %>%
-#'   find_desc() %>%
+#'   jgl_desc() %>%
 #'   get_ocdr() %>%
 #'   get_rms_acc(acc_filt) %>%
 #'   fit_model() %>%
