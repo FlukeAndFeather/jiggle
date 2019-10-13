@@ -16,10 +16,10 @@
 #' prh_ocdr <- get_ocdr(jgl_desc(prh_expl))
 #' acc_filt <- jgl_filtacc(Araw_expl, 10, 90)
 #' prh_rms <- get_rms_acc(prh_ocdr, acc_filt)
-#' prh_spd <- fit_model(prh_rms)
+#' prh_spd <- jgl_fit(prh_rms)
 #'
 #' @export
-fit_model <- function(prh, n_iter = 100) {
+jgl_fit <- function(prh, n_iter = 100) {
   if (!"rms_acc" %in% colnames(prh)) {
     stop("Acceleration RMS not found. Did you run `get_rms_acc`?")
   }

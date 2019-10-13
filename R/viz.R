@@ -86,13 +86,13 @@ plot_ocdr <- function(prh) {
 #'   jgl_desc() %>%
 #'   get_ocdr() %>%
 #'   get_rms_acc(acc_filt) %>%
-#'   fit_model() %>%
+#'   jgl_fit() %>%
 #'   plot_speed()
 #'
 #' @export
 plot_speed <- function(prh, smooth = 1) {
   if (!"speed" %in% colnames(prh)) {
-    stop("Column `speed` not found. Did you run `fit_model`?")
+    stop("Column `speed` not found. Did you run `jgl_fit`?")
   }
   if (!requireNamespace("cowplot", quietly = TRUE)) {
     stop("Package `cowplot` is required for plot_desc")

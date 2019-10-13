@@ -23,7 +23,7 @@ prh_expl \%>\%
   jgl_desc() \%>\%
   get_ocdr() \%>\%
   get_rms_acc(acc_filt) \%>\%
-  fit_model() \%>\%
+  jgl_fit() \%>\%
   plot_speed()
 
 }
