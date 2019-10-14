@@ -45,7 +45,9 @@ BugReports: https://github.com/FlukeAndFeather/jiggle/issues
 Suggests: 
     testthat,
     prhdata,
-    cowplot
+    cowplot,
+    knitr,
+    rmarkdown
 Imports: 
     RcppRoll,
     dplyr,
@@ -56,3 +58,4 @@ Imports:
     signal,
     rlang,
     zoo
+VignetteBuilder: knitr

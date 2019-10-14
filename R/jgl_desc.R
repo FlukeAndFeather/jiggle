@@ -8,6 +8,8 @@
 #' @param depth_thr Minimum depth of a dive
 #' @param pitch_thr Minimum pitch to count as steep descent (in radians)
 #'
+#' @return A PRH data frame with a column `desc_id` identifying each descent.
+#'
 #' @examples
 #' jgl_desc(prh_expl)
 #'
