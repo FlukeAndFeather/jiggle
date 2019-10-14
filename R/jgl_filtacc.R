@@ -5,16 +5,17 @@
 #' @param A Acceleration data frame. Columns \code{Atime} (POSIXct) and
 #'   \code{A} (3-column matrix) with an attribute, \code{Afs}, for the sampling
 #'   frequency.
-#' @param low,high Low and high cutoff frequencies for band-pass filter
+#' @param low,high Low and high cutoff frequencies for band-pass filter. 10 Hz
+#'   and 90 Hz by default.
 #'
 #' @return Same as \code{A} but band-pass filtered acceleration in acceleration
 #'   matrix (\code{A$A}) and attribute (\code{filtered}) to indicate filtering.
 #'
 #' @examples
-#' jgl_filtacc(Araw_expl, 10, 90)
+#' jgl_filtacc(Araw_expl)
 #'
 #' @export
-jgl_filtacc <- function(A, low, high) {
+jgl_filtacc <- function(A, low = 10, high = 90) {
   # A$A must be a 3d numeric matrix
   if (!is.matrix(A$A)) {
     stop("`A$A` must be a matrix")

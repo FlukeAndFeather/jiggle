@@ -13,6 +13,9 @@ jgl_desc(prh, depth_thr = 5, pitch_thr = -45 * pi/180)
 
 \item{pitch_thr}{Minimum pitch to count as steep descent (in radians)}
 }
+\value{
+A PRH data frame with a column \code{desc_id} identifying each descent.
+}
 \description{
 Annotates a PRH data frame with descent phases. Each descent phase begins
 with the start of a dive and ends at the beginning of the bottom phase. Only

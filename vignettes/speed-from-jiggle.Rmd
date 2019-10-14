@@ -13,9 +13,9 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.width = 8,
-  fig.height = 6,
-  dpi = 220,
+  fig.width = 6,
+  fig.height = 4,
+  dpi = 150,
   out.width = "650px",
   warning = FALSE,
   message = FALSE
@@ -36,25 +36,40 @@ desc <- jgl_desc(prh_expl)
 plot_desc(desc)
 ```
 
-`jgl_desc` identifies steep descents using two thresholds: `depth_thr` and `pitch_thr`. By default, these thresholds are set to 5 m and -45 degrees. You can use even steeper sections with a more aggressive pitch threshold, which will reduce the length of the descent phases. Note, `jgl_desc` assumes pitch is negative during descent.
+OCDR is only calculated during descents. In these two dives, OCDR increased with depth up to 4.5 m/s.
 
-```{r steeper_desc}
-library(dplyr)
-desc_steeper <- jgl_desc(prh_expl, pitch_thr = -60 * pi/180)
-# Use the `desc_id` column to compare the duration of descent phases
-desc %>% 
-  group_by(desc_id) %>% 
-  filter(!is.na(desc_id)) %>% 
-  summarize(desc_start = min(time),
-            desc_end = max(time),
-            desc_dur = as.numeric(desc_end - desc_start, unit = "secs"))
-desc_steeper %>% 
-  filter(!is.na(desc_id)) %>% 
-  group_by(desc_id) %>% 
-  summarize(desc_start = min(time),
-            desc_end = max(time),
-            desc_dur = as.numeric(desc_end - desc_start, unit = "secs"))
-plot_desc(desc_steeper)
+```{r ocdr}
+ocdr <- jgl_ocdr(desc)
+plot_ocdr(ocdr)
 ```
 
-Increasing the pitch threshold to 60 degrees reduced the durations of the two descents by about 20 s each.
+## Calculating the "jiggle"
+
+The jiggle method requires high-sampling rate acceleration, at least 100 Hz and preferably greater than 200 Hz. The "jiggle" happens in the high frequency portion of the signal, so we use a band-pass filter (by default 10 - 90 Hz) to isolate the noise. Similar to OCDR, the jiggle increases during descent. Other peaks in the jiggle line up with wiggles in the depth profile, which are associated with high-speed maneuvers.
+
+```{r filter}
+filt <- jgl_filtacc(Araw_expl)
+plot_filt(filt, prh_expl)
+```
+
+Plotting OCDR against the jiggle shows speed increases exponentially.
+
+```{r rms}
+rms <- jgl_accrms(ocdr, filt)
+plot_rms(rms)
+```
+
+## Predicting speed
+
+With OCDR and the jiggle, we fit a multivariate exponential regression:
+
+$$
+OCDR = a \cdot e^{b(c_1 \cdot J_x + c_2 \cdot J_y + c_3 \cdot J_z)}
+$$
+
+Where $J_x$, $J_y$, and $J_z$ are the jiggle in each axis and $a$, $b$, $c_1$, $c_2$, and $c_3$ are the model coefficients. Using this model, we can estimate forward speed throughout the deployment.
+
+```{r speed}
+speed <- jgl_fit(rms)
+plot_speed(speed)
+```

@@ -4,14 +4,15 @@
 \alias{jgl_filtacc}
 \title{Band pass filter acceleration}
 \usage{
-jgl_filtacc(A, low, high)
+jgl_filtacc(A, low = 10, high = 90)
 }
 \arguments{
 \item{A}{Acceleration data frame. Columns \code{Atime} (POSIXct) and
 \code{A} (3-column matrix) with an attribute, \code{Afs}, for the sampling
 frequency.}
 
-\item{low, high}{Low and high cutoff frequencies for band-pass filter}
+\item{low, high}{Low and high cutoff frequencies for band-pass filter. 10 Hz
+and 90 Hz by default.}
 }
 \value{
 Same as \code{A} but band-pass filtered acceleration in acceleration
@@ -21,6 +22,6 @@ matrix (\code{A$A}) and attribute (\code{filtered}) to indicate filtering.
 Filter the acceleration signal between low and high frequency thresholds.
 }
 \examples{
-jgl_filtacc(Araw_expl, 10, 90)
+jgl_filtacc(Araw_expl)
 
 }

@@ -1,9 +1,15 @@
 utils::globalVariables(c(
+  "Ax",
+  "axis",
+  "Ay",
+  "Az",
   "depth",
   "desc_id",
   "end",
+  "jgl_norm",
   "ocdr",
   "pitch",
+  "rms_acc",
   "smooth_speed",
   "time",
   "true_speed"

@@ -10,7 +10,7 @@ plot_ocdr(prh)
 \item{prh}{PRH data frame with OCDR calculated}
 }
 \value{
-A ggplot object
+A gg object (see \code{cowplot})
 }
 \description{
 Create a plot of orientation-corrected depth rate during descents.
