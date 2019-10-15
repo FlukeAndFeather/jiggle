@@ -33,7 +33,7 @@ test_that("prh_expl variables fall within domains", {
 })
 
 test_that("sizes of prh_expl and Araw align", {
-  expect_equal(nrow(Araw_expl) / 40, nrow(prh_expl))
+  expect_equal(nrow(Araw_expl) / 20, nrow(prh_expl))
 })
 
 test_that("prh_expl$time is between 14:21 and 14:37 local time (US/Pacific)", {

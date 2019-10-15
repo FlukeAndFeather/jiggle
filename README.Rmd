@@ -11,5 +11,7 @@ knitr::opts_chunk$set(
   out.width = "100%")
 ```
 
+# jiggle
+
 ```{r, child="vignettes/speed-from-jiggle.Rmd"}
 ```

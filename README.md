@@ -1,5 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+jiggle
+======
+
 The speed of an animal is an important quantity in understanding energetics, biomechanics, and fine-scale predator-prey interactions. Animal-attached devices, also called tags or bio-loggers, have limited ability to measure speed directly. However, in aquatic environments, the signal noise in high sampling rate accelerometers (the "jiggle") grows exponentially with forward speed. Regressing known speeds against the magnitude of the jiggle allows one to estimate the animal's speed during the entire deployment. For more details, see:
 
 Cade, D. E., Barr, K. R., Calambokidis, J., Friedlaender, A. S. & Goldbogen, J. A. Determining forward speed from accelerometer jiggle in aquatic environments. *Journal of Experimental Biology* **221**, jeb170449 (2018).
