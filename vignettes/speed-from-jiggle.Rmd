@@ -63,7 +63,9 @@ plot_rms(rms)
 
 With OCDR and the jiggle, we fit a multivariate exponential regression:
 
-![](`r here::here("man", "figures", "jgl_formula.png")` "ocdr = a * e ^ (b * (c1 * Jx + c2 * Jy + c3 * Jz))"){width=250px}
+$$
+OCDR = a \cdot e^{b \cdot (c_1 \cdot J_x + c_2 \cdot J_y + c_3 \cdot J_z)}
+$$
 
 Where $J_x$, $J_y$, and $J_z$ are the jiggle in each axis and $a$, $b$, $c_1$, $c_2$, and $c_3$ are the model coefficients. Using this model, we can estimate forward speed throughout the deployment.
 

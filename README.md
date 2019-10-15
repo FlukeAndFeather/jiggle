@@ -55,7 +55,7 @@ Predicting speed
 
 With OCDR and the jiggle, we fit a multivariate exponential regression:
 
-<img src="/Users/frank/Documents/GitHub/development/jiggle/man/figures/jgl_formula.png" title="ocdr = a * e ^ (b * (c1 * Jx + c2 * Jy + c3 * Jz))" width="250" />
+<img src="man/figures/jgl_formula.png" title="ocdr = a * e ^ (b * (c1 * Jx + c2 * Jy + c3 * Jz))" width="250" />
 
 Where *J*<sub>*x*</sub>, *J*<sub>*y*</sub>, and *J*<sub>*z*</sub> are the jiggle in each axis and *a*, *b*, *c*<sub>1</sub>, *c*<sub>2</sub>, and *c*<sub>3</sub> are the model coefficients. Using this model, we can estimate forward speed throughout the deployment.
 
