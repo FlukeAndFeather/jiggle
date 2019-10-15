@@ -63,6 +63,7 @@ plot_ocdr <- function(prh) {
   ocdr_plot <- ggplot2::ggplot(prh, ggplot2::aes(time, ocdr)) +
     ggplot2::geom_line(size = 0.2) +
     ggplot2::labs(y = "OCDR (m/s)") +
+    ggplot2::expand_limits(y = 0) +
     ggplot2::theme_minimal()
   cowplot::plot_grid(depth_plot, ocdr_plot,
                      align = "v",

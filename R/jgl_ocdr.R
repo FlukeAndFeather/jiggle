@@ -27,19 +27,18 @@ jgl_ocdr <- function(prh, binwidth = 1) {
     if (is.na(desc_id)){
       return(rep(NA, length(depth)))
     }
+    # Apply smoothing to depth
+    depth <- RcppRoll::roll_mean(depth, binsize, fill = NA)
     max_depth <- RcppRoll::roll_max(depth,
                                     binsize,
-                                    fill = NA,
-                                    align = "center")
+                                    fill = NA)
     min_depth <- RcppRoll::roll_min(depth,
                                     binsize,
-                                    fill = NA,
-                                    align = "center")
+                                    fill = NA)
     delta_depth <- max_depth - min_depth
     mean_pitch <- RcppRoll::roll_mean(-pitch,
                                       binsize,
-                                      fill = NA,
-                                      align = "center")
+                                      fill = NA)
     distance <- delta_depth / sin(mean_pitch)
     ocdr_desc <- distance / binwidth
     ocdr_desc
