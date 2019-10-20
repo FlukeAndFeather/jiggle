@@ -97,7 +97,7 @@ plot_speed <- function(prh, smooth = 1) {
   if (!requireNamespace("cowplot", quietly = TRUE)) {
     stop("Package `cowplot` is required for plot_desc")
   }
-  depth_plot <- plot_depth(prh)
+  depth_plot <- plot_depth(prh, show_desc = FALSE)
   prh$smooth_speed <- RcppRoll::roll_mean(prh$speed,
                                           smooth * attr(prh, "fs"),
                                           fill = NA)

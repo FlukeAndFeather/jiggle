@@ -38,19 +38,36 @@ jgl_accrms <- function(prh, A) {
                  Afs / fs))
   }
 
+  # Create a [nrow(prh) x binsize] matrix for each axis of acceleration and
+  # apply rms to each column
   binsize <- attr(prh, "binwidth") * fs
+  rms_mtx <- matrix(0, nrow = nrow(prh), ncol = binsize)
   idx_to_A <- function(idx) {
     ((idx[1] - 1) * Afs / fs + 1):(idx[length(idx)] * Afs / fs)
   }
-  rms_mtx <- matrix(NA, nrow = nrow(prh), ncol = 3)
-  for (i in 1:nrow(rms_mtx)) {
-    bin_start <- max(1, floor(i - binsize / 2))
-    bin_end <- min(nrow(rms_mtx), floor(i + binsize / 2))
-    acc <- A$A[idx_to_A(bin_start:bin_end), ]
-    rms_mtx[i, ] <- apply(acc, 2, function(x) 20 * log10(rms(x)))
+  calc_rms <- function(col) {
+    acc_mat <- sapply(
+      seq(nrow(prh)),
+      function(i) {
+        bin_start <- max(1, floor(i - binsize / 2))
+        bin_end <- min(nrow(prh), floor(i + binsize / 2))
+        result <- A$A[idx_to_A(bin_start:bin_end), col]
+        result_size <- (binsize + 1) * Afs / fs
+        if (length(result) < result_size) {
+          if (bin_start == 1) {
+            result <- c(rep(NA, result_size - length(result)), result)
+          } else {
+            result <- c(result, rep(NA, result_size - length(result)))
+          }
+        }
+        result
+      }
+    )
+    apply(acc_mat, 2, function(x) 20 * log10(rms(x)))
   }
+  rms_mat <- sapply(1:3, calc_rms)
 
   result <- prh
-  result$rms_acc <- rms_mtx
+  result$rms_acc <- rms_mat
   result
 }

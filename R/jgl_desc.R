@@ -7,6 +7,7 @@
 #' @param prh A PRH data frame
 #' @param depth_thr Minimum depth of a dive
 #' @param pitch_thr Minimum pitch to count as steep descent (in radians)
+#' @param dur_thr Minimum duration of steep descent (in seconds)
 #'
 #' @return A PRH data frame with a column `desc_id` identifying each descent.
 #'
@@ -14,43 +15,76 @@
 #' jgl_desc(prh_expl)
 #'
 #' @export
-jgl_desc <- function(prh, depth_thr = 5, pitch_thr = -45 * pi / 180) {
+jgl_desc <- function(prh,
+                     depth_thr = 5,
+                     pitch_thr = -45 * pi / 180,
+                     dur_thr = 5) {
   depth <- prh$depth
   pitch <- prh$pitch
+  fs <- attr(prh, "fs")
 
   # Split depth profile into dives
-  desc_start <- depth >= depth_thr & lag0(depth) < depth_thr
-  dive_id <- cumsum(desc_start)
+  # Some dives may be invalid if animal briefly exceeds depth threshold during
+  # surface interval
+  dive_start <- depth >= depth_thr & lag0(depth) < depth_thr
+  dive_id <- cumsum(dive_start)
   dive_id[depth < depth_thr] <- NA
 
   # Isolate each dive's descent phase
-  depth_peaks <- findpeaks(depth, width = attr(prh, "fs") * 10, thr = 5)
-  colnames(depth_peaks)[2] <- "depth"
+  depth_peaks <- findpeaks(depth, width = fs * 10, thr = depth_thr)$i
   desc_end <- purrr::map_dbl(
-    which(desc_start),
-    ~ depth_peaks$i[depth_peaks$i > .x][1]
+    which(dive_start),
+    ~ depth_peaks[depth_peaks > .x][1]
   )
 
-  # Find steep regions in descent phases
+  # Remove false descents
+  # If multiple descent starts are associated with a single descent end, then
+  # only the last descent start is valid
   desc_phases <- data.frame(
-    begin = seq_along(depth)[desc_start],
+    begin = which(dive_start),
     end = desc_end
   ) %>%
-    tidyr::drop_na(end) %>%
-    dplyr::mutate(desc_id = factor(seq(length(.data$begin)))) %>%
-    dplyr::group_by(.data$desc_id) %>%
-    dplyr::group_modify(
-      function(row, key) {
-        i <- row$begin:row$end
-        time <- prh$time[i]
-        data.frame(time, pitch = pitch[i])
-      }
-    ) %>%
-    dplyr::ungroup()
-  desc_phases <- desc_phases[desc_phases$pitch <= pitch_thr,
-                             c("time", "desc_id")]
+    dplyr::group_by(end) %>%
+    dplyr::filter(begin == max(begin)) %>%
+    dplyr::ungroup() %>%
+    # Apply first-pass duration threshold
+    dplyr::filter((end - begin) / fs >= dur_thr)
+  desc_phases$desc_id = seq(nrow(desc_phases))
 
-  result <- dplyr::left_join(prh, desc_phases, by = "time")
+  # Join descent phases to PRH
+  desc_phases_long <- desc_phases %>%
+    dplyr::mutate(time = purrr::map2(.data$begin,
+                                     .data$end,
+                                     ~ prh$time[.x:.y])) %>%
+    tidyr::unnest(time) %>%
+    dplyr::select(.data$time, .data$desc_id)
+  result <- dplyr::left_join(prh, desc_phases_long, by = "time")
   attr(result, "fs") <- attr(prh, "fs")
+
+  # Apply pitch threshold
+  for (i in na.omit(unique(result$desc_id))) {
+    descent <- dplyr::filter(result, desc_id == i)
+    descent$desc_id <- NA
+    # Look for longest sequence exceeding pitch and duration threshold
+    pitch_rle <- rle(descent$pitch <= pitch_thr)
+    if (any(pitch_rle$values)) {
+      longest_pitch <- max(pitch_rle$lengths[pitch_rle$values])
+      if (longest_pitch / fs > dur_thr) {
+        which_longest <- which(
+          (pitch_rle$lengths == longest_pitch) & pitch_rle$values
+        )[1]
+        if (which_longest == 1) {
+          begin <- 1
+        } else {
+          begin <- sum(pitch_rle$lengths[1:(which_longest - 1)]) + 1
+        }
+        end <- begin + pitch_rle$lengths[which_longest] - 1
+        descent$desc_id[begin:end] <- i
+      }
+    }
+
+    result$desc_id[which(result$desc_id == i)] <- descent$desc_id
+  }
+
   result
 }

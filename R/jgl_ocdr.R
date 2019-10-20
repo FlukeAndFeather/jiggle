@@ -43,14 +43,12 @@ jgl_ocdr <- function(prh, binwidth = 1) {
     ocdr_desc <- distance / binwidth
     ocdr_desc
   }
-  result <- suppressWarnings(
-    prh %>%
-      dplyr::group_by(.data$desc_id) %>%
-      dplyr::mutate(ocdr = jgl_ocdr_desc(.data$depth,
-                                         .data$pitch,
-                                         .data$desc_id[1])) %>%
-      dplyr::ungroup()
-  )
+  result <- prh %>%
+    dplyr::group_by(.data$desc_id) %>%
+    dplyr::mutate(ocdr = jgl_ocdr_desc(.data$depth,
+                                       .data$pitch,
+                                       .data$desc_id[1])) %>%
+    dplyr::ungroup()
   attr(result, "fs") <- attr(prh, "fs")
   attr(result, "binwidth") <- binwidth
   result
